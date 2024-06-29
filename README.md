@@ -47,7 +47,7 @@ php artisan make:repository {name}
 php artisan make:repository PostRepository --i
 ```
 
-`/app/Repositories/Interfaces/PostRepositoryInterface.php`
+`app/Repositories/Interfaces/PostRepositoryInterface.php`
 
 ```php
 <?php
@@ -67,7 +67,7 @@ interface PostRepositoryInterface
 
 ```
 
-`/app/Repositories/PostRepository.php`
+`app/Repositories/PostRepository.php`
 
 ```php
 <?php
@@ -88,13 +88,26 @@ class PostRepository implements PostRepositoryInterface
 }
 ```
 
+`app\Providers\AppServiceProvider`
+
+```php
+public function register(): void
+{
+    //
+    $this->app->bind(
+    \App\Repositories\Interfaces\PostRepositoryInterface::class,
+    \App\Repositories\PostRepository::class
+    );
+}
+```
+
 ## Create a repository class without interface
 
 ```bash
 php artisan make:repository PostRepository
 ```
 
-`/app/Repositories/PostRepository.php`
+`app/Repositories/PostRepository.php`
 
 ```php
 <?php
@@ -150,19 +163,6 @@ class PostRepository implements PostRepositoryInterface
         return $this->post->create($data);
     }
 }
-```
-
-`App\Providers\AppServiceProvider`
-
-```php
-    public function register(): void
-    {
-        //
-            $this->app->bind(
-            \App\Repositories\Interfaces\PostRepositoryInterface::class,
-            \App\Repositories\PostRepository::class
-        );
-    }
 ```
 
 ### Without Interface
