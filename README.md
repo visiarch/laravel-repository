@@ -1,113 +1,120 @@
-![laravel Service](https://github.com/visiarch/laravel-service/blob/main/images/laravel-service-banner.png)
+![laravel Repository](https://github.com/visiarch/laravel-repository/blob/main/images/laravel-repository-banner.png)
 
-# laravel-service
+# laravel-repository
 
-[![Latest Stable Version](http://poser.pugx.org/visiarch/laravel-service/v)](https://packagist.org/packages/visiarch/laravel-service)
-[![License](http://poser.pugx.org/visiarch/laravel-service/license)](https://packagist.org/packages/visiarch/laravel-service)
+[![Latest Stable Version](http://poser.pugx.org/visiarch/laravel-repository/v)](https://packagist.org/packages/visiarch/laravel-repository)
+[![License](http://poser.pugx.org/visiarch/laravel-repository/license)](https://packagist.org/packages/visiarch/laravel-repository)
 
-> A Simple Package to create services, using artisan commands in laravel.
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/bagussuandana)
 
-This package extends the `make:` commands to help you easily create service classes in Laravel 9+.
+> A Simple Package to create repositories, using artisan commands in laravel.
 
-# What is Service ?
+This package extends the `make:` commands to help you easily create repository classes in Laravel 9+.
 
-A service is a component that is responsible for executing an application's business logic. This is a place to place logic that may be too complex or inappropriate to place in the controller.
+# What is Repository ?
+
+Repository is a design pattern used to manage data access logic. It provides abstraction between the application and data access layers, such as databases.
 
 # Install
 
 ```bash
-composer require visiarch/laravel-service
+composer require visiarch/laravel-repository
 ```
 
 Once it is installed, you can use any of the commands in your terminal.
 
 # Usage
 
-Services are used to separate business logic from the controller, making the controller leaner and focused on handling HTTP requests and providing appropriate responses.
+Repositories are used to separate data access logic from business logic, allowing developers to change how data is stored and retrieved without affecting business logic.
 
 #### With interface
+
 ```bash
-php artisan make:service {name} --i
+php artisan make:repository {name} --i
 ```
 
 #### Without interface
+
 ```bash
-php artisan make:service {name}
+php artisan make:repository {name}
 ```
 
 # Examples
 
-## Create a service class with interface
+## Create a repository class with interface
+
 ```bash
-php artisan make:service PostService --i
+php artisan make:repository PostRepository --i
 ```
-`/app/Interfaces/PostServiceInterface.php`
+
+`/app/Interfaces/PostRepositoryInterface.php`
+
 ```php
 <?php
 
 namespace App\Interfaces;
 
 /**
- * Interface PostServiceInterface
+ * Interface PostRepositoryInterface
  *
- * This interface defines the methods for the PostService class.
+ * This interface defines the methods for the PostRepository class.
  */
 
-interface PostServiceInterface
+interface PostRepositoryInterface
 {
    //
 }
 
 ```
 
+`/app/Repositories/PostRepository.php`
 
-`/app/Services/PostService.php`
 ```php
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
-use App\Interfaces\PostServiceInterface;
+use App\Interfaces\PostRepositoryInterface;
 
 /**
- * Class UserService
+ * Class PostRepository
  *
- * @package App\Services
+ * @package App\Repositories
  */
- 
-class PostService implements PostServiceInterface
+
+class PostRepository implements PostRepositoryInterface
 {
-   // 
+   //
 }
 ```
 
-## Create a service class without interface
+## Create a repository class without interface
+
 ```bash
-php artisan make:service PostService
+php artisan make:repository PostRepository
 ```
 
+`/app/Repositories/PostRepository.php`
 
-
-
-`/app/Services/PostService.php`
 ```php
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
 /**
- * Class UserService
+ * Class PostRepository
  *
- * @package App\Services
+ * @package App\Repositories
  */
- 
-class PostService
+
+class PostRepository
 {
-   // 
+   //
 }
 ```
 
 ## Implementation
+
 ### With Interface
 
 ```php
@@ -117,7 +124,7 @@ namespace App\Interfaces;
 
 use App\Models\Post;
 
-class PostService implements PostServiceInterface
+class PostRepository implements PostRepositoryInterface
 {
     public function store(array $data): Post;
 }
@@ -126,32 +133,45 @@ class PostService implements PostServiceInterface
 ```php
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
 use App\Models\Post;
 
-class PostService implements PostServiceInterface
+class PostRepository implements PostRepositoryInterface
 {
+    protected $post;
+
+    public function __construct(Post $post){
+        $this->post = $post;
+    }
+
     public function store(array $data): Post
     {
-        return Post::create($data);
+        return $this->post->create($data);
     }
 }
 ```
+
 ### Without Interface
 
 ```php
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
 use App\Models\Post;
 
-class PostService
+class PostRepository
 {
+    protected $post;
+
+    public function __construct(Post $post){
+        $this->post = $post;
+    }
+
     public function store(array $data): Post
     {
-        return Post::create($data);
+        return $this->post->create($data);
     }
 }
 ```
@@ -161,7 +181,7 @@ class PostService
 ```php
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
 use App\Models\Post;
 use App\Interfaces\PostServiceInterface;
@@ -185,8 +205,9 @@ class PostController extends Controller
     }
 }
 ```
+
 ```
-Just change PostServiceInterface to PostService if you are implementing without interface
+Just change PostRepositoryInterface to PostRepository if you are implementing without interface
 ```
 
 ## Contributing
