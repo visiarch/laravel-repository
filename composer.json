@@ -1,0 +1,50 @@
+{
+    "name": "visiarch/laravel-repository",
+    "description": "A simple Laravel package to create repository, using artisan commands",
+    "keywords": [
+        "php",
+        "github",
+        "laravel",
+        "Open Source",
+        "repository",
+        "generator",
+        "command",
+        "laravel 9",
+        "laravel 10",
+        "laravel 11"
+    ],
+    "homepage": "https://github.com/visiarch/laravel-repository",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gusti Bagus Suandana",
+            "email": "visiarch@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "Visiarch\\RepositoryServiceTrait\\": "src"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Visiarch\\RepositoryServiceTrait\\RepositoryServiceProvider"
+            ]
+        }
+    }
+}
