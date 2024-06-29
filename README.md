@@ -47,12 +47,12 @@ php artisan make:repository {name}
 php artisan make:repository PostRepository --i
 ```
 
-`/app/Interfaces/PostRepositoryInterface.php`
+`/app/Repositories/Interfaces/PostRepositoryInterface.php`
 
 ```php
 <?php
 
-namespace App\Interfaces;
+namespace App\Repositories\Interfaces;
 
 /**
  * Interface PostRepositoryInterface
@@ -74,7 +74,7 @@ interface PostRepositoryInterface
 
 namespace App\Repositories;
 
-use App\Interfaces\PostRepositoryInterface;
+use App\Repositories\Interfaces\PostRepositoryInterface;
 
 /**
  * Class PostRepository
@@ -120,7 +120,7 @@ class PostRepository
 ```php
 <?php
 
-namespace App\Interfaces;
+namespace App\Repositories\Interfaces;
 
 use App\Models\Post;
 
@@ -150,6 +150,19 @@ class PostRepository implements PostRepositoryInterface
         return $this->post->create($data);
     }
 }
+```
+
+`App\Providers\AppServiceProvider`
+
+```php
+    public function register(): void
+    {
+        //
+            $this->app->bind(
+            \App\Repositories\Interfaces\PostRepositoryInterface::class,
+            \App\Repositories\PostRepository::class
+        );
+    }
 ```
 
 ### Without Interface
@@ -184,7 +197,7 @@ class PostRepository
 namespace App\Repositories;
 
 use App\Models\Post;
-use App\Interfaces\PostServiceInterface;
+use App\Repositories\Interfaces\PostServiceInterface;
 use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
